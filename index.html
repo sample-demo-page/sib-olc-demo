@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sohar Bank Demo</title>
+    <link rel="icon" href="Sohar2.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+           --blue: #FF6B00;
+           --blue-dark: #FF6B00;
+           --blue-light: #FFDBA9;
+           --gold: #f5f5f5;
+           --gray-50: #fafafa;
+           --gray-100: #f5f5f5;
+           --gray-200: #eeeeee;
+           --gray-300: #e0e0e0;
+           --gray-400: #bdbdbd;
+           --gray-600: #757575;
+           --gray-700: #616161;
+           --gray-900: #212121;
+           --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+           --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+           --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+           --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+        }
+        
+        .logo img {
+            height: 95px;
+        }
+        
+        .language-toggle {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .language-toggle button {
+            background: none;
+            border: 1px solid var(--gray-300);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--gray-700);
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .language-toggle button.active {
+            background-color: var(--blue);
+            color: white;
+            border-color: var(--blue);
+        }
+        
+        .language-toggle button:hover:not(.active) {
+            background-color: var(--gray-100);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #FF6B00 0%, #FF6B00 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .hero .container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            font-weight: 400;
+            max-width: 750px;
+            margin: 0 auto;
+            opacity: 0.95;
+            line-height: 1.6;
+        }
+        
+        /* Form Section */
+        .form-section {
+            background-color: white;
+            border-radius: 16px;
+            padding: 60px 50px;
+            box-shadow: var(--shadow-xl);
+            margin: -50px auto 80px;
+            max-width: 920px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .form-section h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 12px;
+            text-align: center;
+            letter-spacing: -0.01em;
+        }
+        
+        .form-section .subtitle {
+            text-align: center;
+            color: var(--gray-600);
+            font-size: 1rem;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+        
+        .card-form {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px 28px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: var(--gray-900);
+            font-size: 14px;
+            letter-spacing: 0.01em;
+        }
+        
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid var(--gray-300);
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s ease;
+            background-color: white;
+            color: var(--gray-900);
+            font-weight: 400;
+        }
+        
+        .form-group input[type="text"]:hover,
+        .form-group input[type="email"]:hover,
+        .form-group select:hover {
+            border-color: var(--gray-400);
+        }
+        
+        .form-group input[type="text"]:focus,
+        .form-group input[type="email"]:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--blue);
+            box-shadow: 0 0 0 4px rgba(196, 118, 0, 0.08);
+            background-color: white;
+        }
+        
+        .form-group select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23757575' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 40px;
+        }
+        
+        /* Checkbox styling */
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px 20px;
+            background-color: var(--gray-50);
+            border-radius: 10px;
+            border: 1.5px solid var(--gray-200);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .checkbox-group:hover {
+            background-color: var(--blue-light);
+            border-color: var(--blue);
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--blue);
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+        
+        .checkbox-group label {
+            margin: 0;
+            cursor: pointer;
+            user-select: none;
+            font-weight: 400;
+            color: var(--gray-700);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        /* Full width form groups */
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+        
+        .form-submit {
+            grid-column: span 2;
+            text-align: center;
+            margin-top: 16px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+            color: white;
+            border: none;
+            padding: 16px 60px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px rgba(196, 144, 0, 0.3);
+            letter-spacing: 0.01em;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(196, 134, 0, 0.4);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        /* Carousel Section */
+        .carousel-section {
+            padding: 80px 0;
+            background-color: var(--gray-100);
+        }
+        
+        .carousel-section h2 {
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--gray-900);
+            font-size: 2.25rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+        
+        .carousel-container {
+            width: 90%;
+            position: relative;
+            margin: 0 auto 30px;
+            overflow: hidden;
+        }
+        
+        .carousel-wrapper {
+            display: flex;
+            transition: transform 0.5s ease;
+            padding: 20px 0;
+        }
+        
+        .carousel-card {
+            width: 1025px;
+            height: 280px;
+            margin: 0 20px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            flex-shrink: 0;
+        }
+        
+        .carousel-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        /* Benefits Section */
+        .main-content {
+            padding: 80px 0;
+        }
+        
+        .card-benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            margin-bottom: 50px;
+        }
+        
+        .benefit-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 40px 32px;
+            box-shadow: var(--shadow-md);
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid var(--gray-200);
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--blue);
+        }
+        
+        .benefit-card i {
+            font-size: 3rem;
+            margin-bottom: 24px;
+            display: block;
+        }
+        
+        .benefit-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--gray-900);
+            letter-spacing: -0.01em;
+        }
+        
+        .benefit-card p {
+            color: var(--gray-600);
+            font-size: 15px;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #FF6B00 0%, #FF6B00 100%);
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 80px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 48px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .footer-column h4 {
+            font-size: 1.125rem;
+            font-weight: 600; 
+            margin-bottom: 20px;
+            letter-spacing: 0.01em;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-column ul li a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            transition: color 0.2s ease;
+            font-size: 14px;
+            font-weight: 400;
+        }
+        
+        .footer-column ul li a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            margin-top: 40px;
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.15);
+        }
+        
+        .footer-bottom p {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 8px;
+            font-weight: 400;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .form-section {
+                padding: 40px 30px;
+                margin: -40px 20px 60px;
+            }
+            
+            .form-section h2 {
+                font-size: 1.5rem;
+            }
+            
+            .card-form {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .form-group.full-width,
+            .form-submit {
+                grid-column: span 1;
+            }
+            
+            .card-benefits {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+            
+            .carousel-section h2 {
+                font-size: 1.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-top">
+                <div class="logo">
+                    
+                    <img src="Sohar.png" alt="">
+                </div>
+                <div class="language-toggle">
+                    <p>Lead Management Demo - Sohar International</p>
+                  
+                    <img src="" alt="" style="height: 95px;">
+                </div> 
+            </div>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <h1 class="lang-en">Welcome to Sohar International</h1>
+            <h2>مرحبًا بكم في صحار الدولي</h2>
+        </div>
+    </section>
+    <section class="container">
+        <div class="form-section">
+            <h2 class="lang-en">Apply Today!</h2>
+            
+            
+            <form class="card-form" id="OnLineLeadForm" method="post" action="https://presales1.businessbywire.com/appgold8demo/ProcessAnonymous/OnlineLeadCapture?x=25xgkuqlsapsn67x4pygd2jkrk6m72jvlen6vdzn7tjjah84auerhkhnhralk3brshfc96w9zw737456f3x9un7jmz66gzz2hj2asrx7zjtan8tgg8dq">
+                <input type="hidden" name="debug" value="1"> 
+                <input type="hidden" name="debugEmail" value="james@crmnext.com"> 
+                <input type="hidden" name="SuccessReturnURL" value="">
+                <input type="hidden" name="FailureReturnURL" value="">
+                <input id="Product" name="ProductName" type="hidden" class="field" value="9">
+                <select id="Layout" name="Layout" style="display: none;">
+                     <option value="102994">CC Process VN</option>
+                </select>
+                <select id="StatusCode" name="StatusCode" style="display: none;">
+                        <option value="100003">New</option>
+                </select>
+                <input type="hidden" id="cust_8239" name="cust_8239" value="Credit Card Campaign for Masses">
+                <input type="hidden" id="cust_8240" name="cust_8240" value="Campaign">
+               <!-- <input type="hidden" name="Product" id="Product" onchange="UpdateProductName();" value="1000408s"> -->
+                <div class="form-group">
+                    <label for="FName" class="lang-en">First Name</label>
+                    <input type="text" id="FName" name="FName" placeholder="Enter your first name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="LName" class="lang-en">Last Name</label>
+                    <input type="text" id="LName" name="LName" placeholder="Enter your last name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="cust_8208" class="lang-en">Company Name</label>
+                    <input type="text" id="Company" name="Company" required>
+                </div>
+                <div class="form-group">
+                        <label class="lang-en">National ID Number</label>
+                        <input type="text" id="cust_2143" name="cust_2143" value="" >
+                </div>
+                            
+                <div class="form-group">
+                    <label for="Email" class="lang-en">Email Address</label>
+                    <input type="text" id="Email" name="Email" placeholder="yourname@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="MobPhone" class="lang-en">Mobile Number</label>
+                    <input type="text" id="MobPhone" name="MobPhone" placeholder="" required>
+                </div>
+                
+                <div class="form-group">
+                        <label class="lang-en">Address</label>
+                        <label class="lang-vi" style="display: none;">Địa Chỉ</label>
+                        <input type="text" id="Address" name="Address">
+                </div>
+
+                <div class="form-group">
+                        <label class="lang-en">Annual Income</label>
+                        <label class="lang-vi" style="display: none;">Thu Nhập Hàng Năm (VND)</label>
+                        <input type="text" name="cust_5773" id="cust_5773" value="">
+                </div>
+                
+                 <div class="form-group">
+                        <label for="Product" class="lang-en">Credit Card</label>
+                        <label for="Product" class="lang-vi" style="display: none;">Loại Thẻ Tín Dụng Ưa Thích</label>
+                        <select name="Product" id="Product" onchange="UpdateProductName();" required>
+                            <option value="1000408" class="lang-en">Visa Cashback</option>
+                            <option value="1000408" class="lang-vi" style="display: none;">Visa Hoàn Tiền 360</option>
+                            <option value="1000406" class="lang-vi" style="display: none;">Hoàn Tiền Online</option>
+                            <option value="1000407" id="Visa" class="lang-en">Visa Infinite</option>
+                            <option value="1000407" class="lang-vi" style="display: none;">Visa Vô Hạn</option>
+                        </select>
+                </div>
+                <div class="form-submit">
+                    <button class="btn-primary lang-en" name="submit" type="submit" onclick="return IsValidForm();">Submit Application</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4 class="lang-en">Contact Us</h4>
+                    <ul>
+                        <li class="lang-en">Hotline: 1900 9247</li>
+                        <li class="lang-en">Email: XYZBank247@mail.com</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4 class="lang-en">Quick Links</h4>
+                    <ul>
+                        <li><a href="#" class="lang-en">About XYZ Bank</a></li>
+                        <li><a href="#" class="lang-en">Learn More</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4 class="lang-en">Others</h4>
+                    <ul>
+                        <li><a href="#" class="lang-en">Terms & Conditions</a></li>
+                        <li><a href="#" class="lang-en">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>Online Lead Capture Demo</p>
+                
+                <p class="lang-en">Disclaimer: This website is strictly for demonstration only and does not offer actual products/services. All information is for illustrative purposes only.</p>
+                
+            </div>
+        </div>
+    </footer>
+
+    <script> 
+        function UpdateProductName() { 
+            var prodObj = document.getElementById('Product'); 
+            var prodNameObj = document.getElementById('ProductName'); 
+            prodNameObj.value = prodObj.options[prodObj.selectedIndex].text; 
+        } 
+        
+        function IsValidForm() { 
+            var errMessage = ''; 
+            if (document.getElementById('LName').value == '') { 
+                errMessage = 'Enter LastName.\n'; 
+            } 
+            if (!IsValidEmail()) { 
+                errMessage += 'Not a valid EmailID.\n'; 
+            } 
+            if (errMessage != '') { 
+                alert(errMessage); 
+                return false; 
+            } 
+            return true; 
+        } 
+        
+        function IsValidEmail() { 
+            if (document.getElementById('Email') == null) return true; 
+            var inem = document.getElementById("Email").value; 
+            if(inem != null && inem !='') { 
+                var filter=/^(\w+(?:\.\w+)*)@((?:\w+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i; 
+                if (!filter.test(inem)) return false; 
+            } 
+            return true; 
+        }
+    </script>
+            
+           
